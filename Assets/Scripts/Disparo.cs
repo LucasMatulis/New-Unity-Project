@@ -11,7 +11,7 @@ public class Disparo : MonoBehaviour
 [SerializeField]
         private GameObject tiroprefab;
     // Update is called once per frame
-   void Start()
+    void Start()
     {
         anim = GetComponent<Animator>();
     }

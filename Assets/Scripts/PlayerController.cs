@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody2D rb2d;
     public int armaatual = 0;
 	[HideInInspector] public bool disparo1 = false;
+	[HideInInspector] public bool disparo2 = false;
+	public int troca = 0;
 	public Transform posPe;
 	[HideInInspector] public bool tocaChao = false;
 	public float Velocidade;
@@ -42,20 +44,31 @@ public class PlayerController : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		if(Input.GetKeyDown("1"))
+		if (Input.GetKeyDown("1"))
+		{
+			if (armaatual == 2)
+			{
+				armaatual = 0;
+			}
+			else
+			{
+				armaatual++;
+			}
+		}
+        if (armaatual == 1)
         {
-			armaatual = 1;
 			disparo1 = true;
-		}
-		if (Input.GetKeyDown("2"))
+			disparo2 = false;
+        }
+		if (armaatual == 2)
 		{
-			armaatual = 2;
 			disparo1 = false;
+			disparo2 = true;
 		}
-		if (Input.GetKeyDown("0"))
+		if (armaatual == 0)
 		{
-			armaatual = 0;
 			disparo1 = false;
+			disparo2 = false;
 		}
 
 		float translationY = 0;
@@ -64,11 +77,13 @@ public class PlayerController : MonoBehaviour {
 		transform.Rotate (0, 0, 0);
 		if (translationX != 0 && tocaChao)
 		{
+			anim.SetTrigger("corre");
 			anim.SetInteger("corridaarma", armaatual);
 		}
 		else
 		{
-			anim.SetInteger("corridaarma", 3);
+			anim.SetTrigger("parado");
+			anim.SetInteger("corridaarma", armaatual);
 		}
 		//Programar o pulo Aqui! 
 		if (jump)
@@ -83,7 +98,6 @@ public class PlayerController : MonoBehaviour {
 		} else if (translationX < 0 && viradoDireita) {
 			Flip();
 		}
-
 	}
 	void Flip()
 	{
